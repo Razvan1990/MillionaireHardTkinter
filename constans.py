@@ -1,0 +1,1 @@
+LIST_NECESSARY_DICT =["Q", "Q_A", "Q_B", "Q_C", "Q_D", "R"]
