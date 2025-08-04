@@ -53,7 +53,7 @@ class InterfaceCreator(object):
 
     def play_game(self, button_pressed, list_buttons, list_labels):
         # first we will ask the contestant to be sure if that is the correct answer
-        option = messagebox.askquestion(title="FINAL ANSWER", message="Do you want to block your answer")
+        option = messagebox.askquestion(title="FINAL ANSWER", message="Do you want to block your answer?")
         if option == "no":
             return
         # get text of button pressed
@@ -70,17 +70,24 @@ class InterfaceCreator(object):
         if text[:1] != response:
             # we need first to check at what value is our counter
             # 1. 1000 won
-            if self.counter_questions >= 4 and self.counter_questions < 9:
+            if self.counter_questions > 4 and self.counter_questions <= 9:
                 self.compute_wrong_answer(1000, button_pressed, response, list_buttons, self.question_id_price)
-            elif self.counter_questions >= 9:
+            elif self.counter_questions > 9:
                 self.compute_wrong_answer(10000, button_pressed, response, list_buttons, self.question_id_price)
             else:
                 self.compute_wrong_answer(0, button_pressed, response, list_buttons, self.question_id_price)
         else:
             correct_answer = pygame.mixer.Sound(os.path.join(self.music_folder, "correct.wav"))
             correct_answer.play()
-            messagebox.showinfo(title="CORRECT",
-                                message="Congratulations! The response is correct.Let's go the the next question")
+            if self.counter_questions == 4:
+                messagebox.showinfo(title="CORRECT",
+                                    message="Congratulations! The response is correct.\nYou have a check of 1000 RON guarenteed\nLet's go the the next question")
+            elif self.counter_questions == 9:
+                messagebox.showinfo(title="CORRECT",
+                                    message="Congratulations! The response is correct.\nYou have a check of 10000 RON guarenteed\nLet's go the the next question")
+            else:
+                messagebox.showinfo(title="CORRECT",
+                                    message="Congratulations! The response is correct.\nLet's go the the next question")
             for keys in self.my_question_list[self.counter_questions][self.question_id_price]:
                 if keys[2:] == response:
                     # we now that there will be a single correct response -> list[0]
@@ -127,8 +134,22 @@ class InterfaceCreator(object):
                 for label in list_labels:
                     if label["text"] == str(self.dict_counter_prizes[self.counter_questions]):
                         label["bg"] = "#DE8414"
+                        if self.counter_questions > 4 and self.counter_questions <= 9:
+                            # we need to extract the label that has 1000
+                            if label["text"] == "1000":
+                                label["bg"] = "#23D9B3"
+                        elif self.counter_questions > 9:
+                            if label["text"] == "10000":
+                                label["bg"] = "#23D9B3"
                     else:
                         label["bg"] = "#03102E"
+                        if self.counter_questions > 4 and self.counter_questions <= 9:
+                            # we need to extract the label that has 1000
+                            if label["text"] == "1000":
+                                label["bg"] = "#23D9B3"
+                        elif self.counter_questions > 9:
+                            if label["text"] == "10000":
+                                label["bg"] = "#23D9B3"
 
     def walk_away(self, list_buttons):
         # we will just check depending on where the counter is - create a dictionary counter-prize
