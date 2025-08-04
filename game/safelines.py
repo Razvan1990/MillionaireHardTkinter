@@ -1,6 +1,9 @@
 import random
-from tkinter import *
+import time
+import tkinter
 from tkinter import messagebox
+import pygame
+import os
 
 import constans
 
@@ -9,10 +12,16 @@ class BuildSavelines(object):
 
     def __init__(self):
         self.letters = ["Q_A", "Q_B", "Q_C", "Q_D"]
-        self.leters_to_values = {"A": 1, "B": 2, "C": 3, "D": 4}
+        self._copied_letters = self.letters.copy()
+        self.letters_to_values = {"A": 1, "B": 2, "C": 3, "D": 4}
+        self.music_folder = os.path.join(os.getcwd(), "..", "wav")
+        pygame.mixer.init()
 
-    def get_phone_answer(self, dict_letter_label, button1, button2, button3, button4):
+    def get_phone_answer(self, dict_letter_label, button1, button2, button3, button4, button_safeline):
         # check how many buttons are completed
+        phone_friend_sound = pygame.mixer.Sound(os.path.join(self.music_folder, "phone.wav"))
+        phone_friend_sound.play()
+        time.sleep(16)
         list_buttons = [button1, button2, button3, button4]
         list_available_letters = []
         if button1["text"] == "" or button2["text"] == "" or button3["text"] == "" or button4["text"] == "":
@@ -33,10 +42,10 @@ class BuildSavelines(object):
             letter = self.letters[random_chose]
             message = f"I think the correct answer is {letter[2:]}:\t {dict_letter_label[letter]}"
             messagebox.showinfo(title="PHONE_ANSWER", message=message)
+        button_safeline["state"] = tkinter.DISABLED
+        button_safeline["bg"] = "#03102E"
 
-    # to make 50/50 based on how we develop game logic
-
-    def make_fifty_fifty(self, dict_question, button1, button2, button3, button4):
+    def make_fifty_fifty(self, dict_question, button1, button2, button3, button4, button_safeline):
         list_buttons = [button1, button2, button3, button4]
         dict_button_to_value = {"A": 1, "B": 2, "C": 3, "D": 4}
         correct_answer = dict_question[constans.LIST_NECESSARY_DICT[5]]
@@ -58,20 +67,18 @@ class BuildSavelines(object):
                     if list_buttons[random_button]["text"][0] == letter[-1]:
                         correct_removal = "Q_" + list_buttons[random_button]["text"][0]
                         self.letters.remove(correct_removal)
-                print(self.letters)
                 list_buttons[random_button]["text"] = ""
-
                 list_buttons.remove(list_buttons[random_button])
                 counter_erase += 1
                 '''
                 need to update the list in case that we have 50/50 used and then to update in the other lifelines
                 '''
-
-                print(counter_erase)
                 if counter_erase == 2:
                     break
+        button_safeline["state"] = tkinter.DISABLED
+        button_safeline["bg"] = "#03102E"
 
-    def get_public_answers(self, button1, button2, button3, button4):
+    def get_public_answers(self, button1, button2, button3, button4, button_safeline):
         '''
         we will generate four random values. We will find the max value and after that we will again randomly generate from 0 till 100-value and so on
         do not get to the same letter to A, we will use a dictionary probably and store a random letter to the value
@@ -134,11 +141,12 @@ class BuildSavelines(object):
                         max_rand4 = 100 - (max_rand1 + max_rand2 + max_rand3)
 
             list_values = [max_rand1, max_rand2, max_rand3, max_rand4]
-            letters_copy = self.letters.copy()
-            dict_results = self.create_random_picker_dict(letters_copy, list_values)
+            dict_results = self.create_random_picker_dict(self._copied_letters, list_values)
             # form the message
             message = f"The audience voted in this way:\nA:\t{dict_results["Q_A"]}%\nB:\t{dict_results["Q_B"]}%\nC:\t{dict_results["Q_C"]}%\nD:\t{dict_results["Q_D"]}%"
             messagebox.showinfo(title="VOTE", message=message)
+        button_safeline["state"] = tkinter.DISABLED
+        button_safeline["bg"] = "#03102E"
 
     def get_max(self, *args):
         if not args:
