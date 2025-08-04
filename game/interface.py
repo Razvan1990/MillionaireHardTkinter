@@ -24,6 +24,7 @@ class InterfaceCreator(object):
         self.counter_questions = 0
         self.dict_counter_prizes = {0: 100, 1: 200, 2: 300, 3: 500, 4: 1000, 5: 1500, 6: 2500, 7: 5000, 8: 7500,
                                     9: 10000, 10: 15000, 11: 25000, 12: 50000, 13: 75000, 14: 100000}
+        # this will resurn the prize -> debug to understand :)
         self.question_id_price = list(self.my_question_list[self.counter_questions].keys())[0]
 
     def compute_wrong_answer(self, amount, button_pressed, response, list_buttons, question_id_price):
@@ -217,7 +218,7 @@ class InterfaceCreator(object):
         start_game_sound = pygame.mixer.Sound(os.path.join(self.music_folder, "start.wav"))
         start_game_sound.play()
 
-        # this will resurn the prize -> debug to understand :)
+
         window.option_add('*Dialog.msg.font', 'Helvetica 18')
         # create canvas
         canvas = Canvas(window, height=750, width=1080, bg="#03102E", bd=0, relief=tkinter.GROOVE, highlightthickness=0,
