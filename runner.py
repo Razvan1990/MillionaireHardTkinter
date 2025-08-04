@@ -1,9 +1,10 @@
 from reader import Reader
-import tkinter as tk
+from game.interface import InterfaceCreator
 
 
 def run_app():
-    reader = Reader()
+    ic = InterfaceCreator()
+    ic.create_main_gui()
 
 
 if __name__ == "__main__":

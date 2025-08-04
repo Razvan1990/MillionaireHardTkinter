@@ -8,7 +8,7 @@ class Reader(object):
 
     def __init__(self):
         #it is appealed in game folder
-        self.text_file = os.path.join(os.getcwd(), "..", "QandA.txt")
+        self.text_file = os.path.join(os.getcwd(),  "QandA.txt")
         self.results_list = []
         # to check how to handle everything
 

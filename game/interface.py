@@ -17,10 +17,10 @@ class InterfaceCreator(object):
         self.safeline = BuildSavelines()
         self.reader = Reader()
         self.my_question_list = self.reader.read_and_create_necessary()
-        self.music_folder = os.path.join(os.getcwd(), "..", "wav")
+        self.music_folder = os.path.join(os.getcwd(), "wav")
         pygame.mixer.init()
-        self.ico_image = os.path.join(os.getcwd(), "..", "million.ico")
-        self.png_image = os.path.join(os.getcwd(), "..", "mil3.png")
+        self.ico_image = os.path.join(os.getcwd(), "million.ico")
+        self.png_image = os.path.join(os.getcwd(), "mil3.png")
         self.counter_questions = 0
         self.dict_counter_prizes = {0: 100, 1: 200, 2: 300, 3: 500, 4: 1000, 5: 1500, 6: 2500, 7: 5000, 8: 7500,
                                     9: 10000, 10: 15000, 11: 25000, 12: 50000, 13: 75000, 14: 100000}
@@ -378,6 +378,3 @@ class InterfaceCreator(object):
         root.mainloop()
 
 
-if __name__ == "__main__":
-    io = InterfaceCreator()
-    io.create_main_gui()

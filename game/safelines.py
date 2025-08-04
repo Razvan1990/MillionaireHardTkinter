@@ -14,7 +14,7 @@ class BuildSavelines(object):
         self.letters = ["Q_A", "Q_B", "Q_C", "Q_D"]
         self._copied_letters = self.letters.copy()
         self.letters_to_values = {"A": 1, "B": 2, "C": 3, "D": 4}
-        self.music_folder = os.path.join(os.getcwd(), "..", "wav")
+        self.music_folder = os.path.join(os.getcwd(), "wav")
         pygame.mixer.init()
 
     def get_phone_answer(self, dict_letter_label, button1, button2, button3, button4, button_safeline):
